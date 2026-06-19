@@ -3,6 +3,8 @@
 [![Maven][maven-version-image]][maven-version-link]
 ![Stability][stable-stability]
 
+> Note: This repository is a fork of [Google Cloud Pub/Sub Group Kafka Connector](https://github.com/googleapis/java-pubsub-group-kafka-connector) and is intended to be used in SingleStore Kafka Connect Pipelines.
+
 The Google Cloud Pub/Sub Group Kafka Connector library provides Google Cloud
 Platform (GCP) first-party connectors for Pub/Sub products with
 [Kafka Connect](http://kafka.apache.org/documentation.html#connect).
@@ -399,7 +401,13 @@ These instructions assume you are using [Maven](https://maven.apache.org/).
 
 ## Versioning
 
-This library follows [Semantic Versioning](http://semver.org/).
+This fork extends [Semantic Versioning](http://semver.org/) with an additional suffix that tracks the upstream release and fork-specific changes:
+
+```text
+<upstream-version>-s2-<fork-patch>
+```
+
+For example, `1.3.3-s2-1` is a fork release based on upstream `1.3.3`.
 
 ## Contributing
 
