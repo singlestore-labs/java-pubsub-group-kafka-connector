@@ -73,7 +73,9 @@ public class CloudPubSubSourceConnectorTest {
     List<Map<String, String>> taskConfigs = connector.taskConfigs(NUM_TASKS);
     assertEquals(taskConfigs.size(), NUM_TASKS);
     for (int i = 0; i < taskConfigs.size(); ++i) {
-      assertEquals(taskConfigs.get(i), props);
+      Map<String, String> taskProps = new HashMap<>(props);
+      taskProps.put("task.id", String.valueOf(i));
+      assertEquals(taskConfigs.get(i), taskProps);
     }
   }
 
