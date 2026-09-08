@@ -71,6 +71,7 @@ public class CloudPubSubSourceConnector extends SourceConnector {
   public static final int DEFAULT_KAFKA_PARTITIONS = 1;
   public static final String DEFAULT_KAFKA_PARTITION_SCHEME = "round_robin";
   public static final String USE_KAFKA_HEADERS = "kafka.record.headers";
+  public static final String TASK_ID = "task.id";
 
   /** Defines the accepted values for the {@link #KAFKA_PARTITION_SCHEME_CONFIG}. */
   public enum PartitionScheme {
@@ -164,6 +165,7 @@ public class CloudPubSubSourceConnector extends SourceConnector {
     ArrayList<Map<String, String>> configs = new ArrayList<>();
     for (int i = 0; i < maxTasks; i++) {
       Map<String, String> config = new HashMap<>(props);
+      config.put(TASK_ID, String.valueOf(i));
       configs.add(config);
     }
     return configs;

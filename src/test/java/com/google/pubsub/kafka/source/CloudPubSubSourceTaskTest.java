@@ -34,6 +34,8 @@ import com.google.protobuf.Empty;
 import com.google.pubsub.kafka.common.ConnectorUtils;
 import com.google.pubsub.v1.PubsubMessage;
 import com.google.pubsub.v1.ReceivedMessage;
+
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,6 +81,7 @@ public class CloudPubSubSourceTaskTest {
    * the .equals on a SourceRecord does not take this into account.
    */
   public void assertRecordsEqual(SourceRecord sr1, SourceRecord sr2) {
+    assertEquals(sr1.sourcePartition(), sr2.sourcePartition());
     assertEquals(sr1.key(), sr2.key());
     assertEquals(sr1.keySchema(), sr2.keySchema());
     assertEquals(sr1.valueSchema(), sr2.valueSchema());
@@ -117,6 +120,7 @@ public class CloudPubSubSourceTaskTest {
     props.put(
         CloudPubSubSourceConnector.KAFKA_PARTITION_SCHEME_CONFIG,
         CloudPubSubSourceConnector.PartitionScheme.ROUND_ROBIN.toString());
+    props.put(CloudPubSubSourceConnector.TASK_ID, "1");
   }
 
   /** Tests that the emulator configuration is properly defined and parsed. */
@@ -200,7 +204,7 @@ public class CloudPubSubSourceTaskTest {
     assertEquals(1, result.size());
     SourceRecord expected =
         new SourceRecord(
-            null,
+            Collections.singletonMap("task.id", "1"),
             null,
             KAFKA_TOPIC,
             0,
@@ -227,7 +231,7 @@ public class CloudPubSubSourceTaskTest {
     assertEquals(1, result.size());
     SourceRecord expected =
         new SourceRecord(
-            null,
+            Collections.singletonMap("task.id", "1"),
             null,
             KAFKA_TOPIC,
             0,
@@ -255,7 +259,7 @@ public class CloudPubSubSourceTaskTest {
     assertEquals(1, result.size());
     SourceRecord expected =
         new SourceRecord(
-            null,
+            Collections.singletonMap("task.id", "1"),
             null,
             KAFKA_TOPIC,
             0,
@@ -291,7 +295,7 @@ public class CloudPubSubSourceTaskTest {
 
     SourceRecord expected =
         new SourceRecord(
-            null,
+            Collections.singletonMap("task.id", "1"),
             null,
             KAFKA_TOPIC,
             0,
@@ -327,7 +331,7 @@ public class CloudPubSubSourceTaskTest {
 
     SourceRecord expected =
         new SourceRecord(
-            null,
+            Collections.singletonMap("task.id", "1"),
             null,
             KAFKA_TOPIC,
             0,
@@ -358,7 +362,7 @@ public class CloudPubSubSourceTaskTest {
 
     SourceRecord expected =
         new SourceRecord(
-            null,
+            Collections.singletonMap("task.id", "1"),
             null,
             KAFKA_TOPIC,
             0,
@@ -400,7 +404,7 @@ public class CloudPubSubSourceTaskTest {
             .put("attribute2", "attribute_value2");
     SourceRecord expected =
         new SourceRecord(
-            null,
+            Collections.singletonMap("task.id", "1"),
             null,
             KAFKA_TOPIC,
             0,
@@ -431,7 +435,7 @@ public class CloudPubSubSourceTaskTest {
     assertEquals(2, result.size());
     SourceRecord expectedForMessageWithKey =
         new SourceRecord(
-            null,
+            Collections.singletonMap("task.id", "1"),
             null,
             KAFKA_TOPIC,
             KAFKA_MESSAGE_KEY_ATTRIBUTE_VALUE.hashCode() % Integer.parseInt(KAFKA_PARTITIONS),
@@ -441,7 +445,7 @@ public class CloudPubSubSourceTaskTest {
             KAFKA_VALUE);
     SourceRecord expectedForMessageWithoutKey =
         new SourceRecord(
-            null,
+            Collections.singletonMap("task.id", "1"),
             null,
             KAFKA_TOPIC,
             0,
@@ -469,7 +473,7 @@ public class CloudPubSubSourceTaskTest {
     assertEquals(1, result.size());
     SourceRecord expected =
         new SourceRecord(
-            null,
+            Collections.singletonMap("task.id", "1"),
             null,
             KAFKA_TOPIC,
             KAFKA_VALUE.hashCode() % Integer.parseInt(KAFKA_PARTITIONS),
@@ -494,7 +498,7 @@ public class CloudPubSubSourceTaskTest {
     assertEquals(1, result.size());
     SourceRecord expected =
         new SourceRecord(
-            null,
+            Collections.singletonMap("task.id", "1"),
             null,
             KAFKA_TOPIC,
             null,
@@ -521,7 +525,7 @@ public class CloudPubSubSourceTaskTest {
     assertEquals(1, result.size());
     SourceRecord expected =
         new SourceRecord(
-            null,
+            Collections.singletonMap("task.id", "1"),
             null,
             KAFKA_TOPIC,
             orderingKey.hashCode() % Integer.parseInt(KAFKA_PARTITIONS),
@@ -550,7 +554,7 @@ public class CloudPubSubSourceTaskTest {
     assertEquals(4, result.size());
     SourceRecord expected1 =
         new SourceRecord(
-            null,
+            Collections.singletonMap("task.id", "1"),
             null,
             KAFKA_TOPIC,
             0,
@@ -560,7 +564,7 @@ public class CloudPubSubSourceTaskTest {
             KAFKA_VALUE);
     SourceRecord expected2 =
         new SourceRecord(
-            null,
+            Collections.singletonMap("task.id", "1"),
             null,
             KAFKA_TOPIC,
             1,
@@ -570,7 +574,7 @@ public class CloudPubSubSourceTaskTest {
             KAFKA_VALUE);
     SourceRecord expected3 =
         new SourceRecord(
-            null,
+            Collections.singletonMap("task.id", "1"),
             null,
             KAFKA_TOPIC,
             2,
@@ -580,7 +584,7 @@ public class CloudPubSubSourceTaskTest {
             KAFKA_VALUE);
     SourceRecord expected4 =
         new SourceRecord(
-            null,
+            Collections.singletonMap("task.id", "1"),
             null,
             KAFKA_TOPIC,
             0,
@@ -614,7 +618,7 @@ public class CloudPubSubSourceTaskTest {
 
     SourceRecord expected =
         new SourceRecord(
-            null,
+            Collections.singletonMap("task.id", "1"),
             null,
             KAFKA_TOPIC,
             0,

@@ -77,6 +77,7 @@ public class CloudPubSubSourceTask extends SourceTask {
   private final Set<String> standardAttributes = new HashSet<>();
   private boolean useKafkaHeaders;
   private boolean useEmulator;
+  private String taskId;
 
   public CloudPubSubSourceTask() {}
 
@@ -117,6 +118,7 @@ public class CloudPubSubSourceTask extends SourceTask {
     useKafkaHeaders = (Boolean) validatedProps.get(CloudPubSubSourceConnector.USE_KAFKA_HEADERS);
     makeOrderingKeyAttribute =
         (Boolean) validatedProps.get(CloudPubSubSourceConnector.CPS_MAKE_ORDERING_KEY_ATTRIBUTE);
+    taskId = props.get(CloudPubSubSourceConnector.TASK_ID);
     boolean useStreamingPull =
         (Boolean) validatedProps.get(CloudPubSubSourceConnector.CPS_STREAMING_PULL_ENABLED);
     long streamingPullBytes =
@@ -241,7 +243,7 @@ public class CloudPubSubSourceTask extends SourceTask {
         } else {
           record =
               new SourceRecord(
-                  null,
+                  Collections.singletonMap(CloudPubSubSourceConnector.TASK_ID, taskId),
                   ack,
                   kafkaTopic,
                   selectPartition(key, messageBytes, orderingKey),
@@ -278,7 +280,7 @@ public class CloudPubSubSourceTask extends SourceTask {
     }
 
     return new SourceRecord(
-        null,
+        Collections.singletonMap(CloudPubSubSourceConnector.TASK_ID, taskId),
         ack,
         kafkaTopic,
         selectPartition(key, messageBytes, orderingKey),
@@ -321,7 +323,7 @@ public class CloudPubSubSourceTask extends SourceTask {
       }
     }
     return new SourceRecord(
-        null,
+        Collections.singletonMap(CloudPubSubSourceConnector.TASK_ID, taskId),
         ack,
         kafkaTopic,
         selectPartition(key, value, orderingKey),
