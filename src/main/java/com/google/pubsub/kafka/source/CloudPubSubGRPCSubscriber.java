@@ -120,15 +120,16 @@ public class CloudPubSubGRPCSubscriber implements CloudPubSubSubscriber {
 
       SubscriberStubSettings.Builder builder = SubscriberStubSettings.newBuilder();
 
-      org.threeten.bp.Duration shortTimeout = org.threeten.bp.Duration.ofMillis(cpsPollTimeoutMs);
-      com.google.api.gax.retrying.RetrySettings pullRetrySettings =
-              builder.pullSettings().getRetrySettings().toBuilder()
-                      .setInitialRpcTimeout(shortTimeout)
-                      .setMaxRpcTimeout(shortTimeout)
-                      .setTotalTimeout(shortTimeout)
-                      .build();
-
-      builder.pullSettings().setRetrySettings(pullRetrySettings);
+      if (cpsPollTimeoutMs > 0) {
+        org.threeten.bp.Duration shortTimeout = org.threeten.bp.Duration.ofMillis(cpsPollTimeoutMs);
+        com.google.api.gax.retrying.RetrySettings pullRetrySettings =
+                builder.pullSettings().getRetrySettings().toBuilder()
+                        .setInitialRpcTimeout(shortTimeout)
+                        .setMaxRpcTimeout(shortTimeout)
+                        .setTotalTimeout(shortTimeout)
+                        .build();
+        builder.pullSettings().setRetrySettings(pullRetrySettings);
+      }
 
       // Configure endpoint, credentials and channel based on whether we're using emulator or
       // production
