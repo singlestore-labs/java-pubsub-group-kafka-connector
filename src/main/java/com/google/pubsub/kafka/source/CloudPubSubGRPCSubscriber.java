@@ -20,6 +20,7 @@ import com.google.api.core.ApiFutures;
 import com.google.api.gax.core.CredentialsProvider;
 import com.google.api.gax.core.NoCredentialsProvider;
 import com.google.api.gax.grpc.InstantiatingGrpcChannelProvider;
+import com.google.api.gax.rpc.DeadlineExceededException;
 import com.google.cloud.pubsub.v1.stub.GrpcSubscriberStub;
 import com.google.cloud.pubsub.v1.stub.SubscriberStubSettings;
 import com.google.common.util.concurrent.MoreExecutors;
@@ -87,7 +88,7 @@ public class CloudPubSubGRPCSubscriber implements CloudPubSubSubscriber {
 
     return ApiFutures.catching(
             pullFuture,
-            com.google.api.gax.rpc.DeadlineExceededException.class,
+            DeadlineExceededException.class,
             exception -> java.util.Collections.emptyList(),
             MoreExecutors.directExecutor());
   }
